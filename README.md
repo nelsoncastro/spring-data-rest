@@ -1,4 +1,4 @@
-# Flywaydb Sample
+# Spring Data Rest
 > This repository contains code related to use Spring Data Rest.
 
 ## Meta
