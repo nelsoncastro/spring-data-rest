@@ -1,14 +1,8 @@
 package com.github.nelsoncastro.springbootrest.api;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -18,6 +12,13 @@ import java.util.Objects;
 @Data
 @Entity
 @Table(name = "PERSONS")
+@NamedNativeQuery(name = "Person.findPersonNameDtoByName_Named",
+                  query = "SELECT p.id, p.name FROM PERSONS p WHERE p.name = :name",
+                  resultSetMapping = "Mapping.PersonDTO")
+@SqlResultSetMapping(name = "Mapping.PersonDTO",
+                     classes = @ConstructorResult(targetClass = com.github.nelsoncastro.springbootrest.api.PersonDTO.class,
+                                                  columns = {@ColumnResult(name = "id", type = Long.class),
+                                                             @ColumnResult(name = "name", type = String.class)}))
 public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
