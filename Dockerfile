@@ -1,4 +1,10 @@
 FROM adoptopenjdk/openjdk11:latest
-RUN mkdir /opt/app
-COPY target/spring-boot-rest-1.0.0-SNAPSHOT.jar /opt/app
-CMD ["java", "-jar", "/opt/app/spring-boot-rest-1.0.0-SNAPSHOT.jar"]
+WORKDIR /app
+
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:resolve
+
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]
